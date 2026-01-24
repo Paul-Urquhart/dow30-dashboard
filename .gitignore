@@ -1,0 +1,22 @@
+.env
+venv/
+.env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+
+# Local data outputs (optional but recommended)
+data/
+*.csv
+
+# Logs
+*.log
+
