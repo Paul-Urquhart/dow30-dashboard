@@ -2,18 +2,22 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go 
 import datetime as dt 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # DJIA INDEX AND MA-20
 
-df = pd.read_csv("data/gold_dow_index.csv")
+df = pd.read_csv(os.getenv("FILE_PATH") + "/gold_dow_index.csv")
 
 # df = pd.DataFrame(data)
 df["date"] = pd.to_datetime(df["date"])
 
 latest_data_date = df['date'].max()
 formatted_date = latest_data_date.strftime("%d-%B-%Y")
-st.text(formatted_date)
+st.markdown("# Dow Jones " + formatted_date)
 
 # Create the OHLC chart
 fig = go.Figure()
@@ -52,7 +56,9 @@ st.plotly_chart(fig, width='stretch')
 
 # YESTERDAY'S TOP 5
 
-df_top5 = pd.read_csv("data/gold_top5.csv")
+df_top5 = pd.read_csv(os.getenv("FILE_PATH") + "/gold_top5.csv", index_col='symbol')
+df_top5.drop(columns='date', inplace=True)
+
 
 st.markdown(f"#### Top 5 performers from {formatted_date}")
 st.write(df_top5)
@@ -60,7 +66,8 @@ st.write(df_top5)
 
 # YESTERDAY'S BOTTOM 5
 
-df_bottom5 = pd.read_csv("data/gold_bottom5.csv")
+df_bottom5 = pd.read_csv(os.getenv("FILE_PATH") + "/gold_bottom5.csv", index_col='symbol')
+df_bottom5.drop(columns='date', inplace=True)
 
 st.markdown(f"#### Bottom 5 performers from {formatted_date}")
 st.write(df_bottom5)
